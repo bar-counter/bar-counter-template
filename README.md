@@ -14,22 +14,28 @@
 
 ```bash
 make init
-make dep
 # ensure right then
 make dev
-# and open url
-# health http://127.0.0.1:38000/status/health
-# pprof http://127.0.0.1:38000/debug/pprof/
+# run as docker contant
+$ make dockerRun
+# stop or remove docker
+$ make dockerStop
+$ make dockerRemove
 ```
 
-# use middleware
+# import plugin
 
 ```bash
 # go get
 go get -v github.com/bar-counter/template
 
 # dep go 1.7 -> 1.11
-dep ensure --add github.com/bar-counter/template@1.0.0
-dep ensure -v
+GOPROXY=https://mirrors.aliyun.com/goproxy/ GO111MODULE=on go mod edit -require=github.com/json-iterator/go@v1.1.7
+make dep
 ```
 
+```go
+import "github.com/json-iterator/go"
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
+```
