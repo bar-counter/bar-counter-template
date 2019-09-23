@@ -1,4 +1,4 @@
-package template
+package barcountertemplate
 
 const (
 	DefaultRunAddr   = ":31000"
