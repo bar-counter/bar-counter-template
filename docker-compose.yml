@@ -12,7 +12,7 @@ services:
     container_name: "${ROOT_NAME}"
     image: alpine:3.10
     ports:
-      - "39000:39000"
+      - "31000:31000"
     volumes:
       - "./build/test/${DIST_VERSION}/:/usr/src/myapp"
       - "./log:/usr/src/myapp/log"
