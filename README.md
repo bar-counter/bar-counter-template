@@ -2,12 +2,13 @@
 # for what
 
 - this project used to gin middware
-- [ ] replace pkg name `github.com/bar-counter/template` to target
+- [ ] replace pkg name `github.com/bar-counter/bar-counter-template` to target
 
 ## dependInfo
 
 | lib | url | version |
 |:-----|:-----|:-----|
+| go sdk | https://golang.org/ | 1.12+ |
 | gin | https://github.com/gin-gonic/gin | 1.4.0 |
 
 # demo
@@ -26,10 +27,7 @@ $ make dockerRemove
 # import plugin
 
 ```bash
-# go get
-go get -v github.com/bar-counter/template
-
-# dep go 1.7 -> 1.11
+# above go 1.12
 GOPROXY=https://mirrors.aliyun.com/goproxy/ GO111MODULE=on go mod edit -require=github.com/json-iterator/go@v1.1.7
 make dep
 ```
