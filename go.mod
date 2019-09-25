@@ -1,4 +1,4 @@
-module github.com/bar-counter/template
+module github.com/bar-counter/bar-counter-template
 
 go 1.12
 
