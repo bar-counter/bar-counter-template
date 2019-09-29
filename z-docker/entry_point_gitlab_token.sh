@@ -105,7 +105,7 @@ GIT_LAB_BRANCH  -> ${GIT_LAB_BRANCH}
 GIT_LAB_COMMIT_CODE -> ${GIT_LAB_COMMIT_CODE}
 "
 
-if [[ ! -d ${${GIT_LAB_REPO}} ]];then
+if [[ ! -d ${GIT_LAB_REPO} ]];then
 	git clone ${GIT_LAB_API}:${GIT_LAB_TOKEN}@${GIT_LAB_HOST}/${GIT_LAB_GROUP}/${GIT_LAB_REPO}.git
 	checkFuncBack "git clone ${GIT_LAB_API}:${GIT_LAB_TOKEN}@${GIT_LAB_HOST}/${GIT_LAB_GROUP}/${GIT_LAB_REPO}.git"
 fi
