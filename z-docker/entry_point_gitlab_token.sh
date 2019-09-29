@@ -52,7 +52,7 @@ check_root(){
 }
 
 checkBinary git
-checkBinary python
+#checkBinary golang
 
 if test ${GIT_LAB_TOKEN}; then
     pW "env ${INFO_ENV_PREFIX} GIT_LAB_TOKEN not set!"
