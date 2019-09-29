@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+# most change
+GIT_LAB_COMMIT_CODE=${WEB_GIT_LAB_COMMIT_CODE}
+GIT_LAB_BRANCH=${WEB_GIT_LAB_BRANCH}
 GIT_LAB_TOKEN=${WEB_GIT_LAB_TOKEN}
+
 GIT_LAB_REPO=${WEB_GIT_LAB_REPO}
 GIT_LAB_GROUP=${WEB_GIT_LAB_GROUP}
 GIT_LAB_HOST=${WEB_GIT_LAB_HOST}
@@ -45,6 +49,13 @@ checkBinary(){
   fi
 }
 
+checkEnv(){
+	if [[ $(env | grep "$1" | wc -l) -ne 1 ]]; then
+		echo -e "\033[;31mCheck environment [ $1 ] error exit\033[0m"
+		exit 1
+	fi
+}
+
 check_root(){
   if [[ ${EUID} != 0 ]]; then
     echo "no not root user"
@@ -55,22 +66,32 @@ checkBinary git
 #checkBinary golang
 
 if test ${GIT_LAB_TOKEN}; then
-    pW "env ${INFO_ENV_PREFIX} GIT_LAB_TOKEN not set!"
+    pW "env ${INFO_ENV_PREFIX}GIT_LAB_TOKEN not set!"
     exit 1
 fi
 
 if test ${GIT_LAB_REPO}; then
-    pW "env ${INFO_ENV_PREFIX} GIT_LAB_REPO not set!"
+    pW "env ${INFO_ENV_PREFIX}GIT_LAB_REPO not set!"
     exit 1
 fi
 
 if test ${GIT_LAB_GROUP}; then
-    pW "env ${INFO_ENV_PREFIX} GIT_LAB_GROUP not set!"
+    pW "env ${INFO_ENV_PREFIX}GIT_LAB_GROUP not set!"
     exit 1
 fi
 
 if test ${GIT_LAB_HOST}; then
-    pW "env ${INFO_ENV_PREFIX} GIT_LAB_HOST not set!"
+    pW "env ${INFO_ENV_PREFIX}GIT_LAB_HOST not set!"
+    exit 1
+fi
+
+if test ${GIT_LAB_BRANCH}; then
+    pW "env ${INFO_ENV_PREFIX}GIT_LAB_BRANCH not set!"
+    exit 1
+fi
+
+if test ${GIT_LAB_COMMIT_CODE}; then
+    pW "env ${INFO_ENV_PREFIX}GIT_LAB_COMMIT_CODE not set!"
     exit 1
 fi
 
@@ -80,13 +101,27 @@ GIT_LAB_API     -> ${GIT_LAB_API}
 GIT_LAB_HOST    -> ${GIT_LAB_HOST}
 GIT_LAB_GROUP   -> ${GIT_LAB_GROUP}
 GIT_LAB_REPO    -> ${GIT_LAB_REPO}
+GIT_LAB_BRANCH  -> ${GIT_LAB_BRANCH}
+GIT_LAB_COMMIT_CODE -> ${GIT_LAB_COMMIT_CODE}
 "
 
-git clone ${GIT_LAB_API}:${GIT_LAB_TOKEN}@${GIT_LAB_HOST}/${GIT_LAB_GROUP}/${GIT_LAB_REPO}.git
-checkFuncBack "git clone ${GIT_LAB_API}:${GIT_LAB_TOKEN}@${GIT_LAB_HOST}/${GIT_LAB_GROUP}/${GIT_LAB_REPO}.git"
+if [[ ! -d ${${GIT_LAB_REPO}} ]];then
+	git clone ${GIT_LAB_API}:${GIT_LAB_TOKEN}@${GIT_LAB_HOST}/${GIT_LAB_GROUP}/${GIT_LAB_REPO}.git
+	checkFuncBack "git clone ${GIT_LAB_API}:${GIT_LAB_TOKEN}@${GIT_LAB_HOST}/${GIT_LAB_GROUP}/${GIT_LAB_REPO}.git"
+fi
 
 # to repo
 cd ${GIT_LAB_REPO}
 echo "run at $PWD"
 
+now_path_commit_code=$(git reset --head HEAD)
+if [[ "${GIT_LAB_COMMIT_CODE}" -ne "${now_path_commit_code}" ]];then
+	git reset --head HEAD
+	#git rev-parse refs/remotes/origin/master^{commit}
+	#git rev-parse refs/remotes/origin/origin/master^{commit}
+	git checkout origin/${GIT_LAB_BRANCH}
+	git checkout -f ${GIT_LAB_COMMIT_CODE}
+#git rev-list ${GIT_LAB_COMMIT_CODE}
+fi
 
+pW "must change run code here"
