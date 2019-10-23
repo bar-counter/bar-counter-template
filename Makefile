@@ -7,7 +7,9 @@ TOP_DIR := $(shell pwd)
 # endif
 
 DIST_VERSION := 1.0.0
+# linux windows darwin  list as: go tool dist list
 DIST_OS := linux
+# amd64 386
 DIST_ARCH := amd64
 
 DIST_OS_DOCKER ?= linux
